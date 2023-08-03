@@ -14,6 +14,10 @@ class UserController extends Controller
     }
 
     public function login(Request $request) {
-        dd($request->name);
+        $input = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+        return $this->service->login($input);
     }
 }
