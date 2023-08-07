@@ -28,6 +28,11 @@ class UserService
         return response()->json(['Usuario deslogado com sucesso!'], 200);
     }
 
+    public function index() {
+        $users = User::all();
+        return $users;
+    }
+
     public function store($input) {
         try {
             return $this->user->create([

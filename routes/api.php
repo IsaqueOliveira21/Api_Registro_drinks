@@ -11,6 +11,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('logout', [UserController::class, 'logout']);
         Route::prefix('user')->group(function () {
+            Route::get('', [UserController::class, 'index']);
             Route::post('store', [UserController::class, 'store']);
         });
         Route::prefix('drinks')->controller(DrinkController::class)->group(function() {

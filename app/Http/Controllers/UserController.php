@@ -25,6 +25,12 @@ class UserController extends Controller
     public function logout() {
         return $this->service->logout();
     }
+
+    public function index() {
+        $users = $this->service->index();
+        return UserResource::collection($users);
+    }
+
     public function store(Request $request) {
         $input = $request->validate([
             'name' => 'required|string',
