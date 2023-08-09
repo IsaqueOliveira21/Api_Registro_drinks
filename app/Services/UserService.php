@@ -45,4 +45,14 @@ class UserService
         }
     }
 
+    public function update(User $user, array $input) {
+        try {
+            $user->fill($input);
+            $user->save();
+            return $user;
+        } catch (HttpResponseException $e) {
+            return response()->json([$e->getMessage()], 500);
+        }
+    }
+
 }

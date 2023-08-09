@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,16 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
         $user = $this->service->store($input);
+        return new UserResource($user);
+    }
+
+    public function update(User $user, Request $request) {
+        $input = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+        $user = $this->service->update($user, $input);
         return new UserResource($user);
     }
 }

@@ -15,7 +15,7 @@ class DrinkService
             ->groupBy('users.name')
             ->orderBy('qtd', 'DESC')
             ->get();
-        return response()->json([$query], 200);
+        return $query;
     }
     public function userDrinksToday($user) {
         $query = DB::table('drinks')
