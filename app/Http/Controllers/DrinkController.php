@@ -15,8 +15,9 @@ class DrinkController extends Controller
         $this->service = $drinkService;
     }
 
-    public function rankIndex() {
-        $rank = $this->service->rankIndex();
+    public function rankIndex(Request $request) {
+        $datas = ['inicial' => $request->data_inicio, 'final' => $request->data_final];
+        $rank = $this->service->rankIndex($datas);
         return DrinkResource::collection($rank);
     }
     public function userDrinksToday(User $user) {

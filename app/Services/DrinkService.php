@@ -8,10 +8,13 @@ use function PHPUnit\Framework\assertJson;
 
 class DrinkService
 {
-    public function rankIndex() {
+    public function rankIndex($datas = null) {
         $query = DB::table('drinks')
             ->select('users.name', DB::raw("COUNT(*) AS qtd"))
             ->join('users', 'drinks.user_id', '=', 'users.id')
+            ->when(!empty($datas), function ($query) use ($datas) {
+                $query->whereBetween('drinks.created_at', $datas);
+            })
             ->groupBy('users.name')
             ->orderBy('qtd', 'DESC')
             ->get();

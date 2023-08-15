@@ -8,11 +8,9 @@ use Illuminate\Http\JsonResponse;
 class UserService
 {
     private $user;
-
     public function __construct(User $user) {
         $this->user = $user;
     }
-
     public function login($input): JsonResponse
     {
         if(!auth()->attempt($input)) {
@@ -22,17 +20,14 @@ class UserService
             return response()->json([$token->plainTextToken], 200);
         }
     }
-
     public function logout() {
         auth()->user()->currentAccessToken()->delete();
         return response()->json(['Usuario deslogado com sucesso!'], 200);
     }
-
     public function index() {
-        $users = User::all();
+        $users = User::paginate(2);
         return $users;
     }
-
     public function store($input) {
         try {
             return $this->user->create([
@@ -44,7 +39,6 @@ class UserService
             throw new HttpResponseException(response()->json([$e->getMessage()], 500));
         }
     }
-
     public function update(User $user, array $input) {
         try {
             $user->fill($input);
@@ -54,5 +48,8 @@ class UserService
             return response()->json([$e->getMessage()], 500);
         }
     }
-
+    public function delete($user) {
+        $user->delete();
+        return response()->json(['Usuario removido com sucesso!'], 200);
+    }
 }
